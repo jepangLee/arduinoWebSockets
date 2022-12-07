@@ -627,26 +627,7 @@ void WebSocketsClient::sendHeader(WSclient_t * client) {
                            "Host: ");
     handshake += _host + ":" + _port + NEW_LINE;
 
-    if(ws_header) {
-        handshake += WEBSOCKETS_STRING(
-            "Connection: Upgrade\r\n"
-            "Upgrade: websocket\r\n"
-            "Sec-WebSocket-Version: 13\r\n"
-            "Sec-WebSocket-Key: ");
-        handshake += client->cKey + NEW_LINE;
-
-        if(client->cProtocol.length() > 0) {
-            handshake += WEBSOCKETS_STRING("Sec-WebSocket-Protocol: ");
-            handshake += client->cProtocol + NEW_LINE;
-        }
-
-        if(client->cExtensions.length() > 0) {
-            handshake += WEBSOCKETS_STRING("Sec-WebSocket-Extensions: ");
-            handshake += client->cExtensions + NEW_LINE;
-        }
-    } else {
-        handshake += WEBSOCKETS_STRING("Connection: keep-alive\r\n");
-    }
+    handshake += WEBSOCKETS_STRING("Connection: keep-alive\r\n");
 
     // add extra headers; by default this includes "Origin: file://"
     if(client->extraHeaders.length() > 0) {
