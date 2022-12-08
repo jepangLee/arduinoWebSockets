@@ -626,25 +626,26 @@ void WebSocketsClient::sendHeader(WSclient_t * client) {
                            " HTTP/1.1\r\n"
                            "Host: ");
     handshake += _host + ":" + _port + NEW_LINE;
+
     if(ws_header) {
-      handshake += WEBSOCKETS_STRING(
-          "Connection: keep-alive, Upgrade\r\n"
-          "Upgrade: websocket\r\n"
-          "Sec-WebSocket-Version: 13\r\n"
-          "Sec-WebSocket-Key: ");
-      handshake += client->cKey + NEW_LINE;
+        handshake += WEBSOCKETS_STRING(
+            "Connection: Upgrade\r\n"
+            "Upgrade: websocket\r\n"
+            "Sec-WebSocket-Version: 13\r\n"
+            "Sec-WebSocket-Key: ");
+        handshake += client->cKey + NEW_LINE;
 
-      if(client->cProtocol.length() > 0) {
-        handshake += WEBSOCKETS_STRING("Sec-WebSocket-Protocol: ");
-        handshake += client->cProtocol + NEW_LINE;
-      }
+        if(client->cProtocol.length() > 0) {
+            handshake += WEBSOCKETS_STRING("Sec-WebSocket-Protocol: ");
+            handshake += client->cProtocol + NEW_LINE;
+        }
 
-      if(client->cExtensions.length() > 0) {
-        handshake += WEBSOCKETS_STRING("Sec-WebSocket-Extensions: ");
-        handshake += client->cExtensions + NEW_LINE;
-      }
+        if(client->cExtensions.length() > 0) {
+            handshake += WEBSOCKETS_STRING("Sec-WebSocket-Extensions: ");
+            handshake += client->cExtensions + NEW_LINE;
+        }
     } else {
-      handshake += WEBSOCKETS_STRING("Connection: keep-alive\r\n");
+        handshake += WEBSOCKETS_STRING("Connection: keep-alive\r\n");
     }
 
     // add extra headers; by default this includes "Origin: file://"
@@ -732,7 +733,7 @@ void WebSocketsClient::handleHeader(WSclient_t * client, String * headerLine) {
                 client->cExtensions = headerValue;
             } else if(headerName.equalsIgnoreCase(WEBSOCKETS_STRING("Sec-WebSocket-Version"))) {
                 client->cVersion = headerValue.toInt();
-            } else if(headerName.equalsIgnoreCase(WEBSOCKETS_STRING("Set-Cookie")) && headerValue.indexOf(" io=") > -1) {
+            } else if(headerName.equalsIgnoreCase(WEBSOCKETS_STRING("Set-Cookie"))) {
                 if(headerValue.indexOf(';') > -1) {
                     client->cSessionId = headerValue.substring(headerValue.indexOf('=') + 1, headerValue.indexOf(";"));
                 } else {
