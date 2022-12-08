@@ -177,7 +177,7 @@ void SocketIOclient::loop(void) {
     if(!_disableHeartbeat && (t - _lastHeartbeat) > EIO_HEARTBEAT_INTERVAL) {
         _lastHeartbeat = t;
         DEBUG_WEBSOCKETS("[wsIOc] send ping\n");
-        WebSocketsClient::sendTXT(eIOtype_PING);
+//        WebSocketsClient::sendTXT(eIOtype_PING);
     }
 }
 
